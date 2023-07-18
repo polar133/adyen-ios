@@ -164,7 +164,12 @@
                 case let .failure(error):
                     completionHandler(.failure(error))
                 case let .success(challengeResult):
-                    self?.addSDKOutputIfNeeded(toChallengeResult: challengeResult, challengeAction, completionHandler: completionHandler)
+                    switch challengeResult {
+                    case let .error(threeDSError):
+                        completionHandler(.success(.error(threeDSError)))
+                    case let .result(threeDSResult):
+                        self?.addSDKOutputIfNeeded(toChallengeResult: threeDSResult, challengeAction, completionHandler: completionHandler)
+                    }
                 }
             }
         }
@@ -186,7 +191,7 @@
                                   completionHandler: completionHandler)
                 }
             } else {
-                completionHandler(.success(challengeResult))
+                completionHandler(.success(.result(challengeResult)))
             }
         }
         
@@ -208,7 +213,7 @@
 
         private func deliver(challengeResult: ThreeDSResult,
                              delegatedAuthenticationSDKOutput: String?,
-                             completionHandler: @escaping (Result<ThreeDSResult, Error>) -> Void) {
+                             completionHandler: @escaping (Result<ThreeDSCoreActionResponse, Error>) -> Void) {
 
             do {
                 let threeDSResult = try challengeResult.withDelegatedAuthenticationSDKOutput(
@@ -216,7 +221,7 @@
                 )
 
                 transaction = nil
-                completionHandler(.success(threeDSResult))
+                completionHandler(.success(.result(threeDSResult)))
             } catch {
                 completionHandler(.failure(error))
             }
