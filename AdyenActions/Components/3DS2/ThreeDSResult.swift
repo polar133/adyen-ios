@@ -7,6 +7,20 @@
 @_spi(AdyenInternal) import Adyen
 import Foundation
 
+enum ThreeDSCoreActionResponse: Decodable {
+    case error(ThreeDSError)
+    case result(ThreeDSResult)
+}
+
+public struct ThreeDSError: Decodable {
+    /// The payload to submit to verify the authentication.
+    public let payload: String
+    internal init(threeDS2SDKError: String) throws {
+        let payloadData = try JSONEncoder().encode(threeDS2SDKError)
+        self.payload = threeDS2SDKError
+    }
+}
+
 /// Contains the result of a 3DS transaction.
 public struct ThreeDSResult: Decodable {
 
@@ -18,6 +32,10 @@ public struct ThreeDSResult: Decodable {
         internal let delegatedAuthenticationSDKOutput: String?
         internal let threeDS2SDKError: String?
         internal let transStatus: String?
+    }
+    
+    private struct PayloadError: Codable {
+        internal let threeDS2SDKError: String?
     }
 
     internal init(authorizationToken: String?,

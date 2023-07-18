@@ -158,7 +158,7 @@
         /// - Parameter completionHandler: The completion closure.
         override internal func handle(_ challengeAction: ThreeDS2ChallengeAction,
                                       event: Analytics.Event,
-                                      completionHandler: @escaping (Result<ThreeDSResult, Error>) -> Void) {
+                                      completionHandler: @escaping (Result<ThreeDSCoreActionResponse, Error>) -> Void) {
             super.handle(challengeAction, event: event) { [weak self] result in
                 switch result {
                 case let .failure(error):
@@ -171,7 +171,7 @@
         
         private func addSDKOutputIfNeeded(toChallengeResult challengeResult: ThreeDSResult,
                                           _ challengeAction: ThreeDS2ChallengeAction,
-                                          completionHandler: @escaping (Result<ThreeDSResult, Error>) -> Void) {
+                                          completionHandler: @escaping (Result<ThreeDSCoreActionResponse, Error>) -> Void) {
             let token: ThreeDS2Component.ChallengeToken
             do {
                 token = try Coder.decodeBase64(challengeAction.challengeToken) as ThreeDS2Component.ChallengeToken

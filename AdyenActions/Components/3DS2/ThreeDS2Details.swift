@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2022 Adyen N.V.
+// Copyright (c) 2023 Adyen N.V.
 //
 // This file is open source and available under the MIT license. See the LICENSE file for more info.
 //
@@ -19,6 +19,8 @@ public enum ThreeDS2Details: AdditionalDetails {
     /// When a 3DS flow is completed.
     case completed(ThreeDSResult)
 
+    case error(ThreeDSError)
+    
     // MARK: - Encoding
     
     public func encode(to encoder: Encoder) throws {
@@ -31,6 +33,8 @@ public enum ThreeDS2Details: AdditionalDetails {
             try container.encode(challengeResult.payload, forKey: .challengeResult)
         case let .completed(result):
             try container.encode(result.payload, forKey: .threeDSResult)
+        case let .error(threeDSError):
+            try container.encode(threeDSError.payload, forKey: .threeDS2SDKError)
         }
     }
     
@@ -38,6 +42,7 @@ public enum ThreeDS2Details: AdditionalDetails {
         case fingerprint = "threeds2.fingerprint"
         case challengeResult = "threeds2.challengeResult"
         case threeDSResult
+        case threeDS2SDKError
     }
     
 }

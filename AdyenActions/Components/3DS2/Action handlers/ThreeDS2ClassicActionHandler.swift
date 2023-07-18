@@ -100,10 +100,17 @@ internal class ThreeDS2ClassicActionHandler: AnyThreeDS2ActionHandler, Component
         }
     }
 
-    private func handle(_ threeDSResult: ThreeDSResult,
+    private func handle(_ threeDSResult: ThreeDSCoreActionResponse,
                         completionHandler: @escaping (Result<ThreeDSActionHandlerResult, Error>) -> Void) {
-        let additionalDetails = ThreeDS2Details.challengeResult(threeDSResult)
-        completionHandler(.success(.details(additionalDetails)))
+        switch threeDSResult {
+        case let .error(threeDSError):
+            let additionalDetails = ThreeDS2Details.error(threeDSError)
+            completionHandler(.success(.details(additionalDetails)))
+
+        case let .result(result):
+            let additionalDetails = ThreeDS2Details.challengeResult(result)
+            completionHandler(.success(.details(additionalDetails)))
+        }
     }
 
     // MARK: - Private

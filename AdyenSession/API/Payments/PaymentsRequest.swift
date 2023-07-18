@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2022 Adyen N.V.
+// Copyright (c) 2023 Adyen N.V.
 //
 // This file is open source and available under the MIT license. See the LICENSE file for more info.
 //
@@ -53,7 +53,7 @@ internal struct PaymentsRequest: APIRequest {
         try container.encodeIfPresent(data.deliveryAddress, forKey: .deliveryAddress)
         try container.encodeIfPresent(data.socialSecurityNumber, forKey: .socialSecurityNumber)
         try container.encodeIfPresent(data.browserInfo, forKey: .browserInfo)
-        try container.encodeIfPresent(data.checkoutAttemptId, forKey: .checkoutAttemptId)
+        // try container.encodeIfPresent(data.checkoutAttemptId, forKey: .checkoutAttemptId)
         try container.encodeIfPresent(data.order?.compactOrder, forKey: .order)
     }
     
