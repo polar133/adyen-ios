@@ -9,6 +9,10 @@ import Adyen3DS2
 import Foundation
 
 internal extension ThreeDS2Component {
+    enum FingerprintResponse {
+        case error(String)
+        case fingerprint(String)
+    }
     
     struct Fingerprint: Codable, Equatable { // swiftlint:disable:this explicit_acl
         internal let deviceInformation: String?
