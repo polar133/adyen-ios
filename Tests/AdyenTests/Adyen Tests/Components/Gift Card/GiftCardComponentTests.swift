@@ -32,6 +32,10 @@ class GiftCardComponentTests: XCTestCase {
         sut.viewController.view.findView(with: "AdyenCard.GiftCardComponent.numberItem")
     }
 
+    var securityCodeItemTitleLabel: UILabel? {
+        sut.viewController.view.findView(with: "AdyenCard.GiftCardComponent.securityCodeItem.titleLabel")
+    }
+    
     var securityCodeItemView: FormTextInputItemView? {
         sut.viewController.view.findView(with: "AdyenCard.GiftCardComponent.securityCodeItem")
     }
@@ -54,6 +58,21 @@ class GiftCardComponentTests: XCTestCase {
         sut.readyToSubmitComponentDelegate = readyToSubmitPaymentComponentDelegate
     }
 
+    func testGiftCardUI() {
+
+        // When
+        UIApplication.shared.keyWindow?.rootViewController = sut.viewController
+        wait(for: .milliseconds(300))
+
+        // cvc title changes based on payment method
+        let securityCodeItemTitleLabel: UILabel? = sut.viewController.view.findView(with: "AdyenCard.GiftCardComponent.securityCodeItem.titleLabel")
+        XCTAssertEqual(securityCodeItemTitleLabel?.text, "Pin")
+        
+        // Then
+        XCTAssertNotNil(securityCodeItemView, "security code should be shown by default")
+        XCTAssertEqual(securityCodeItemTitleLabel?.text, "Pin", "cvc title changes based on payment method")
+    }
+    
     func testCheckBalanceFailure() throws {
 
         let publicKeyProviderExpectation = expectation(description: "Expect publicKeyProvider to be called.")
@@ -549,6 +568,24 @@ class GiftCardComponentTests: XCTestCase {
         XCTAssertEqual(sut.errorItem.message, "An unknown error occurred")
 
         waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testGiftCardHidingSecurityCodeItemView() throws {
+
+        // Given
+        sut = GiftCardComponent(
+            paymentMethod: paymentMethod,
+            apiContext: Dummy.context,
+            showsSecurityCodeField: false,
+            publicKeyProvider: publicKeyProvider)
+
+        // When
+        let mockViewController = UIViewController()
+        sut.viewWillAppear(viewController: mockViewController)
+
+        // Then
+        XCTAssertNotNil(numberItemView)
+        XCTAssertNil(securityCodeItemView)
     }
 
     private func populate(cardNumber: String, pin: String) {

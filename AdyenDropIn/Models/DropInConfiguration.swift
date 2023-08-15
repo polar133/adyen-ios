@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2022 Adyen N.V.
+// Copyright (c) 2023 Adyen N.V.
 //
 // This file is open source and available under the MIT license. See the LICENSE file for more info.
 //
@@ -50,6 +50,9 @@ public extension DropInComponent {
         /// Default value: `true`.
         public let allowPreselectedPaymentView: Bool
         
+        /// Gift card component configuration
+        public var giftCard: GiftCard = .init()
+        
         /// Initializes the drop in configuration.
         /// - Parameters:
         ///   - apiContext: The API context used to retrieve internal resources.
@@ -90,6 +93,12 @@ public extension DropInComponent {
         /// A list of fields that you need for a shipping contact in order to process the transaction.
         public var requiredShippingContactFields: Set<PKContactField> = []
 
+    }
+    
+    /// Gift card component configuration.
+    struct GiftCard {
+        /// Indicates whether to show the security code field. Defaults to true.
+        public var showsSecurityCodeField: Bool = false // true
     }
     
 }
