@@ -196,7 +196,7 @@ internal enum AnyPaymentMethod: Decodable {
     case onlineBanking(OnlineBankingPaymentMethod)
     case upi(UPIPaymentMethod)
     case cashAppPay(CashAppPayPaymentMethod)
-    
+    case klarna(KlarnaPaymentMethod)
     case none
     
     internal var value: PaymentMethod? {
@@ -262,6 +262,8 @@ internal enum AnyPaymentMethod: Decodable {
         case let .upi(paymentMethod):
             return paymentMethod
         case let .cashAppPay(paymentMethod):
+            return paymentMethod
+        case let .klarna(paymentMethod):
             return paymentMethod
         case .none:
             return nil

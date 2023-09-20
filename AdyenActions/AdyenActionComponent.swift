@@ -176,6 +176,8 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
         switch sdkAction {
         case let .weChatPay(weChatPaySDKAction):
             handle(weChatPaySDKAction)
+        case let .klarnaMobileSDK(klarnaSDKAction):
+            handle(klarnaSDKAction)
         }
     }
     
@@ -191,6 +193,24 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
         weChatPaySDKActionComponent.handle(action)
         
         currentActionComponent = weChatPaySDKActionComponent
+    }
+
+    private func handle(_ action: KlarnaMobileSDKAction) {
+        if let component = NSClassFromString("AdyenKlarna.KlarnaComponent") {
+
+            if let paymentComponent = component as? KlarnaMobileSDKActionComponent.Type {
+
+                var con = paymentComponent.init(context: context)
+                con.delegate = delegate
+                con.presentationDelegate = presentationDelegate
+                con.handle(action)
+                currentActionComponent = con
+            }
+        } else {
+            // TODO: Present error.
+            /// Log error in console for the dev to instalate the AdenKlarna SDK
+            
+        }
     }
     
     private func handle(_ action: AwaitAction) {

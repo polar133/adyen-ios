@@ -59,6 +59,7 @@ public enum PaymentMethodType: RawRepresentable, Hashable, Codable {
     case mealVoucherSodexo
     case upi
     case cashAppPay
+    case klarna
     case other(String)
     
     // swiftlint:disable cyclomatic_complexity function_body_length
@@ -117,6 +118,7 @@ public enum PaymentMethodType: RawRepresentable, Hashable, Codable {
         case "mealVoucher_FR_sodexo": self = .mealVoucherSodexo
         case "upi": self = .upi
         case "cashapp": self = .cashAppPay
+        case "klarna": self = .klarna
         default: self = .other(rawValue)
         }
     }
@@ -174,6 +176,7 @@ public enum PaymentMethodType: RawRepresentable, Hashable, Codable {
         case .mealVoucherSodexo: return "mealVoucher_FR_sodexo"
         case .upi: return "upi"
         case .cashAppPay: return "cashapp"
+        case .klarna: return "klarna"
         case let .other(value): return value
         }
     }

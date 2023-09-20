@@ -82,7 +82,8 @@ internal enum AnyPaymentMethodDecoder {
         .onlineBankingCZ: OnlineBankingPaymentMethodDecoder(),
         .onlineBankingSK: OnlineBankingPaymentMethodDecoder(),
         .upi: UPIPaymentMethodDecoder(),
-        .cashAppPay: CashAppPayPaymentMethodDecoder()
+        .cashAppPay: CashAppPayPaymentMethodDecoder(),
+        .klarna: KlarnaPaymentMethodDecoder()
     ]
     
     private static var defaultDecoder: PaymentMethodDecoder = InstantPaymentMethodDecoder()
@@ -317,5 +318,11 @@ private struct CashAppPayPaymentMethodDecoder: PaymentMethodDecoder {
         #else
             return .none
         #endif
+    }
+}
+
+private struct KlarnaPaymentMethodDecoder: PaymentMethodDecoder {
+    func decode(from decoder: Decoder, isStored: Bool) throws -> AnyPaymentMethod {
+        try .klarna(KlarnaPaymentMethod(from: decoder))
     }
 }
