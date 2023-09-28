@@ -376,6 +376,7 @@
 		E5EF49B32AB9993300906DE8 /* AdyenKlarnaPaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EF49B22AB9993300906DE8 /* AdyenKlarnaPaymentViewController.swift */; };
 		E5EF49B52AB9A52600906DE8 /* AdyenKlarnaPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EF49B42AB9A52600906DE8 /* AdyenKlarnaPaymentView.swift */; };
 		E5F517812AA61F3A007ECFFE /* KlarnaPaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F517802AA61F3A007ECFFE /* KlarnaPaymentMethod.swift */; };
+		E5FAA8522ABC80D400879AE4 /* KlarnaActionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FAA8512ABC80D400879AE4 /* KlarnaActionDetails.swift */; };
 		E700A72D2549E2F00012B64C /* BLIKPaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E700A72C2549E2F00012B64C /* BLIKPaymentMethod.swift */; };
 		E702BDA5260108A700280682 /* ClientKeyValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702BDA4260108A700280682 /* ClientKeyValidator.swift */; };
 		E702BDE42602149E00280682 /* Assertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E702BDE32602149E00280682 /* Assertion.swift */; };
@@ -1618,6 +1619,7 @@
 		E5EF49B22AB9993300906DE8 /* AdyenKlarnaPaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdyenKlarnaPaymentViewController.swift; sourceTree = "<group>"; };
 		E5EF49B42AB9A52600906DE8 /* AdyenKlarnaPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdyenKlarnaPaymentView.swift; sourceTree = "<group>"; };
 		E5F517802AA61F3A007ECFFE /* KlarnaPaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlarnaPaymentMethod.swift; sourceTree = "<group>"; };
+		E5FAA8512ABC80D400879AE4 /* KlarnaActionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KlarnaActionDetails.swift; sourceTree = "<group>"; };
 		E700A72C2549E2F00012B64C /* BLIKPaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLIKPaymentMethod.swift; sourceTree = "<group>"; };
 		E700A7352549EA1C0012B64C /* BLIKComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLIKComponent.swift; sourceTree = "<group>"; };
 		E700A73D2549EA680012B64C /* BLIKDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLIKDetails.swift; sourceTree = "<group>"; };
@@ -3609,6 +3611,7 @@
 				E5B340292AAA01090090E81B /* PaymentView */,
 				E56AF2D52AA7214F0017D6B6 /* AdyenKlarna.h */,
 				E56AF2D62AA7214F0017D6B6 /* AdyenKlarna.docc */,
+				E5FAA8512ABC80D400879AE4 /* KlarnaActionDetails.swift */,
 			);
 			path = AdyenKlarna;
 			sourceTree = "<group>";
@@ -6928,6 +6931,7 @@
 			files = (
 				E56AF2E12AA722D50017D6B6 /* KlarnaComponent.swift in Sources */,
 				E56AF2D72AA7214F0017D6B6 /* AdyenKlarna.docc in Sources */,
+				E5FAA8522ABC80D400879AE4 /* KlarnaActionDetails.swift in Sources */,
 				E5EF49B52AB9A52600906DE8 /* AdyenKlarnaPaymentView.swift in Sources */,
 				E5EF49B32AB9993300906DE8 /* AdyenKlarnaPaymentViewController.swift in Sources */,
 			);

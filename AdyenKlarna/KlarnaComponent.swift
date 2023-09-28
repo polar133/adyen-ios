@@ -19,7 +19,7 @@ public final class KlarnaComponent: KlarnaMobileSDKActionComponent {
     public var context: AdyenContext
 
     /// The ready to submit payment data.
-    public let paymentData: PaymentComponentData?
+    public var paymentData: String?
 
     /// The payment method.
     public let paymentMethod: PaymentMethod?
@@ -29,8 +29,6 @@ public final class KlarnaComponent: KlarnaMobileSDKActionComponent {
 
     /// Delegates `PresentableComponent`'s presentation.
     public weak var presentationDelegate: PresentationDelegate?
-
-    public var requiresModalPresentation: Bool = true
 
     public var configuration: Configuration?
 
@@ -47,7 +45,7 @@ public final class KlarnaComponent: KlarnaMobileSDKActionComponent {
                 paymentData: PaymentComponentData,
                 configuration: BasicComponentConfiguration) {
         self.paymentMethod = paymentMethod
-        self.paymentData = paymentData
+        self.paymentData = nil
         self.context = context
         self.configuration = configuration
     }
@@ -82,7 +80,7 @@ public final class KlarnaComponent: KlarnaMobileSDKActionComponent {
     }
 
     public func handle(_ action: KlarnaMobileSDKAction) {
-
+        self.paymentData = action.paymentData
         let viewController = AdyenKlarnaPaymentViewController(token: action.sdkData.clientToken, category: action.sdkData.category)
         viewController.delegate = self
         if let presentationDelegate {
@@ -110,8 +108,15 @@ extension KlarnaComponent: TrackableComponent {
 
 extension KlarnaComponent: AdyenKlarnaPaymentProtocol {
     func approved(authToken: String) {
-        let additionalDetails = AwaitActionDetails(payload: authToken)
-        let actionData = ActionComponentData(details: additionalDetails, paymentData: authToken)
-        delegate?.didComplete(from: self)
+        let additionalDetails = KlarnaActionDetails(authorizationToken: authToken)
+        let actionData = ActionComponentData(details: additionalDetails, paymentData: self.paymentData!)
+        delegate?.didProvide(actionData, from: self)
+    }
+
+    func error(_ error: Error, name: String, message: String, isFatal: Bool) {
+
+        
+        delegate?.didFail(with: error, from: self)
     }
 }
+

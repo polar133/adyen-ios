@@ -10,6 +10,7 @@ import KlarnaMobileSDK
 
 protocol AdyenKlarnaPaymentProtocol: AnyObject {
     func approved(authToken: String)
+    func error(_ error: Error, name: String, message: String, isFatal: Bool)
 }
 
 final class AdyenKlarnaPaymentViewController: UIViewController {
@@ -57,14 +58,14 @@ final class AdyenKlarnaPaymentViewController: UIViewController {
 
         view.addSubview(containerView)
 
-        containerView.adyen.anchor(inside: view.safeAreaLayoutGuide)
 
-        //containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        //containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        //containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        containerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         //containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
         setupPaymentView(in: containerView)
+        setupAuthorizeButton(in: containerView)
 
     }
 
@@ -78,7 +79,25 @@ final class AdyenKlarnaPaymentViewController: UIViewController {
             self.paymentViewHeightConstraint?.isActive = true
         }
 
-        klarnaPaymentView?.initialize(clientToken: self.clientToken)
+        klarnaPaymentView?.initialize(clientToken: "122152151")
+    }
+
+    func setupAuthorizeButton(in view: UIStackView) {
+
+        let authBtn = UIButton()
+        authBtn.translatesAutoresizingMaskIntoConstraints = false
+        authBtn.setTitle("Authorize", for: .normal)
+        authBtn.setTitleColor(UIColor.black, for: .normal)
+        authBtn.addTarget(self, action: #selector(authorizePressed), for: .touchUpInside)
+        view.addArrangedSubview(authBtn)
+
+        authBtn.layer.cornerRadius = 5
+        authBtn.layer.borderWidth = 1
+        authBtn.layer.borderColor = UIColor.black.cgColor
+    }
+
+    @IBAction func authorizePressed() {
+        klarnaPaymentView?.authorize()
     }
 
 }
@@ -90,15 +109,11 @@ extension AdyenKlarnaPaymentViewController: KlarnaPaymentEventListener {
 
     }
 
-    func klarnaLoaded(paymentView: KlarnaPaymentView) {
-        paymentView.authorize()
-
-    }
+    func klarnaLoaded(paymentView: KlarnaPaymentView) { }
 
     func klarnaLoadedPaymentReview(paymentView: KlarnaPaymentView) { }
 
     func klarnaAuthorized(paymentView: KlarnaPaymentView, approved: Bool, authToken: String?, finalizeRequired: Bool) {
-
         if approved, authToken != nil {
             self.delegate?.approved(authToken: authToken!)
         }
@@ -115,6 +130,6 @@ extension AdyenKlarnaPaymentViewController: KlarnaPaymentEventListener {
     }
 
     func klarnaFailed(inPaymentView paymentView: KlarnaPaymentView, withError error: KlarnaPaymentError) {
-        print("error")
+        self.delegate?.error(error, name: error.name, message: error.message, isFatal: error.isFatal)
     }
 }

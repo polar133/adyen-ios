@@ -196,15 +196,13 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
     }
 
     private func handle(_ action: KlarnaMobileSDKAction) {
-        if let component = NSClassFromString("AdyenKlarna.KlarnaComponent") {
-
-            if let paymentComponent = component as? KlarnaMobileSDKActionComponent.Type {
-
-                var con = paymentComponent.init(context: context)
-                con.delegate = delegate
-                con.presentationDelegate = presentationDelegate
-                con.handle(action)
-                currentActionComponent = con
+        if let classComponent = NSClassFromString("AdyenKlarna.KlarnaComponent") {
+            if let paymentComponent = classComponent as? KlarnaMobileSDKActionComponent.Type {
+                let component = paymentComponent.init(context: context)
+                component.delegate = delegate
+                component.presentationDelegate = presentationDelegate
+                component.handle(action)
+                currentActionComponent = component
             }
         } else {
             // TODO: Present error.

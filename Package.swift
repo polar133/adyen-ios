@@ -49,6 +49,10 @@ let package = Package(
         .library(
             name: "AdyenCashAppPay",
             targets: ["AdyenCashAppPay"]
+        ),
+        .library(
+            name: "AdyenKlarna",
+            targets: ["AdyenKlarna"]
         )
     ],
     dependencies: [
@@ -71,6 +75,11 @@ let package = Package(
             name: "PayKit",
             url: "https://github.com/cashapp/cash-app-pay-ios-sdk",
             .exact(Version(0, 5, 1))
+        ),
+        .package(
+            name: "KlarnaMobileSDK",
+            url: "https://github.com/klarna/klarna-mobile-sdk-spm",
+            .exact(Version(2, 6, 10))
         )
     ],
     targets: [
@@ -170,6 +179,14 @@ let package = Package(
                 .product(name: "PayKitUI", package: "PayKit")
             ],
             path: "AdyenCashAppPay"
+        ),
+        .target(
+            name: "AdyenKlarna",
+            dependencies: [
+                .target(name: "Adyen"),
+                .product(name: "KlarnaMobileSDK", package: "KlarnaMobileSDK")
+            ],
+            path: "AdyenKlarna"
         )
     ]
 )
