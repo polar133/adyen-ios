@@ -10,7 +10,7 @@ import Foundation
 public protocol KlarnaMobileSDKActionComponent: ActionComponent,
                                                 Cancellable {
     /// Initializer that takes an `APIContext`.
-    init(context: AdyenContext)
+    init(context: AdyenContext, configuration: AdyenActionComponent.Configuration.Klarna)
 
     /// Delegates `PresentableComponent`'s presentation.
     var presentationDelegate: PresentationDelegate? { get set }

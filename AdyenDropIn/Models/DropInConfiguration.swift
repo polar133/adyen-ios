@@ -85,6 +85,8 @@ public extension DropInComponent {
         
         /// Three DS configurations
         public var threeDS: AdyenActionComponent.Configuration.ThreeDS = .init()
+
+        public var klarna: AdyenActionComponent.Configuration.Klarna = .init()
     }
 
     /// Boleto component configuration.

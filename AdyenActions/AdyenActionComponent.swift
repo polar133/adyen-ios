@@ -41,7 +41,9 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
         
         /// Three DS configurations
         public var threeDS: ThreeDS = .init()
-        
+
+        public var klarna: Klarna = .init()
+
         /// Three DS configurations
         public struct ThreeDS {
             /// `threeDSRequestorAppURL` for protocol version 2.2.0 OOB challenges
@@ -62,6 +64,17 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
                 self.requestorAppURL = requestorAppURL
                 self.delegateAuthentication = delegateAuthentication
                 self.appearanceConfiguration = appearanceConfiguration
+            }
+        }
+        
+        /// Klarna Mobile SDK configuration.
+        public struct Klarna {
+            
+            /// URL schema as defined in your app’s Plist to return from external applications.
+            public var returnURL: URL?
+
+            public init(returnURL: URL? = nil) {
+                self.returnURL = returnURL
             }
         }
         
@@ -197,17 +210,22 @@ public final class AdyenActionComponent: ActionComponent, ActionHandlingComponen
 
     private func handle(_ action: KlarnaMobileSDKAction) {
         if let classComponent = NSClassFromString("AdyenKlarna.KlarnaComponent") {
-            if let paymentComponent = classComponent as? KlarnaMobileSDKActionComponent.Type {
-                let component = paymentComponent.init(context: context)
-                component.delegate = delegate
-                component.presentationDelegate = presentationDelegate
-                component.handle(action)
-                currentActionComponent = component
+            if configuration.klarna.returnURL == nil {
+                delegate?.didFail(with: UnknownError(errorDescription: "Invalid ReturnURL: Add a valid URL on `configuration.actionComponent.klarna.returnURL`."), from: self)
+                return
+            } else {
+                if let paymentComponent = classComponent as? KlarnaMobileSDKActionComponent.Type {
+                    let component = paymentComponent.init(context: context, configuration: configuration.klarna)
+                    component.delegate = delegate
+                    component.presentationDelegate = presentationDelegate
+                    component.handle(action)
+                    currentActionComponent = component
+                } else {
+                    delegate?.didFail(with: UnknownError(errorDescription: "AdyenKlarna SDK not found. Klarna Payment is not available."), from: self)
+                }
             }
         } else {
-            // TODO: Present error.
-            /// Log error in console for the dev to instalate the AdenKlarna SDK
-            
+            delegate?.didFail(with: UnknownError(errorDescription: "AdyenKlarna SDK not found. In order to enable Klarna payments, please integrate AdyenKlarna SDK to the project."), from: self)
         }
     }
     

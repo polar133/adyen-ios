@@ -183,6 +183,7 @@ public final class DropInComponent: NSObject,
         handler.presentationDelegate = self
         handler.configuration.localizationParameters = configuration.localizationParameters
         handler.configuration.threeDS = configuration.actionComponent.threeDS
+        handler.configuration.klarna = configuration.actionComponent.klarna
         return handler
     }()
     

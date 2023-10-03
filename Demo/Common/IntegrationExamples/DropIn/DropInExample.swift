@@ -93,6 +93,7 @@ internal final class DropInExample: InitialDataFlowProtocol {
         let configuration = ConfigurationConstants.current.dropInConfiguration
 
         configuration.applePay = try? ConfigurationConstants.current.applePayConfiguration()
+        configuration.actionComponent.klarna.returnURL = URL(string: ConfigurationConstants.returnUrl)!
         configuration.actionComponent.threeDS.delegateAuthentication = ConfigurationConstants.delegatedAuthenticationConfigurations
         configuration.card = ConfigurationConstants.current.cardDropInConfiguration
         return configuration
