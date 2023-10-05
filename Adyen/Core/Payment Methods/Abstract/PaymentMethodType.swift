@@ -119,6 +119,8 @@ public enum PaymentMethodType: RawRepresentable, Hashable, Codable {
         case "upi": self = .upi
         case "cashapp": self = .cashAppPay
         case "klarna": self = .klarna
+        case "klarna_account": self = .klarna
+        case "klarna_paynow": self = .klarna
         default: self = .other(rawValue)
         }
     }

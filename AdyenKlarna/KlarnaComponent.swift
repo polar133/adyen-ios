@@ -43,7 +43,9 @@ public final class KlarnaComponent: KlarnaMobileSDKActionComponent {
 
     public func handle(_ action: KlarnaMobileSDKAction) {
         self.paymentData = action.paymentData
-        let viewController = AdyenKlarnaPaymentViewController(token: action.sdkData.clientToken, category: action.sdkData.category, url: configuration!.returnURL!)
+        let viewController = AdyenKlarnaPaymentViewController(token: action.sdkData.clientToken,
+                                                              category: action.sdkData.category,
+                                                              url: configuration!.returnURL!)
         viewController.delegate = self
         if let presentationDelegate {
             let presentableComponent = PresentableComponentWrapper(component: self, viewController: viewController)

@@ -42,6 +42,7 @@ final class AdyenKlarnaPaymentViewController: UIViewController {
 
     override internal func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white
         setupView()
     }
 
